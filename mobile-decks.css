@@ -1,0 +1,38 @@
+/* Mobile-only layouts, separate from Programs' desktop presentation. */
+.mobile-deck-controls{display:none}
+@media(max-width:949.98px){
+ .courses .grid.mobile-deck-ready,.stories .grid.mobile-deck-ready{
+  --slide-width:min(360px,calc(100vw - var(--gutter)*2 - 24px));
+  position:relative;display:flex;flex-wrap:nowrap;align-items:stretch;gap:24px;
+  overflow-x:hidden;scroll-behavior:auto;scroll-snap-type:none;
+  padding:12px max(0px,calc((100% - var(--slide-width))/2)) 26px;
+  touch-action:pan-y pinch-zoom;scrollbar-width:none;
+ }
+ .courses .mobile-deck-ready>.course,.stories .mobile-deck-ready>.story{
+  flex:0 0 var(--slide-width);min-width:0;transform:scale(.94);transform-origin:center;
+  transition:transform 450ms ease,box-shadow 450ms ease;perspective:none;
+ }
+ .courses .mobile-deck-ready>.is-mobile-current,.stories .mobile-deck-ready>.is-mobile-current{transform:scale(1);box-shadow:0 10px 22px #49372b16}
+ .stories .mobile-deck-ready>.story{overflow:hidden;background:#f7f2eb}
+ .stories .mobile-deck-ready>.story::before{display:none}
+ .stories .mobile-deck-ready>.story .story-media,.stories .mobile-deck-ready>.story .story-copy,.stories .mobile-deck-ready>.story .story-copy>*{transform:none;box-shadow:none;text-shadow:none}
+ .courses .mobile-deck-ready>.course .course-media{transform:none;box-shadow:none}
+ .courses .mobile-deck-ready>.course .course-media img{filter:none;transform:none}
+ .mobile-deck-controls{display:flex;gap:18px;margin-top:8px}
+ .mobile-deck-status{margin:0;min-width:72px;text-align:center;font-size:1rem}
+}
+
+/* Mobile Programs show the complete expanded content without hover. */
+@media(max-width:949.98px){
+ .courses .course .course-media{flex:none;aspect-ratio:4/3;min-height:0}
+ .courses .course .course-media img{object-position:50% 50%}
+ .courses .course .course-copy{padding:22px}
+ .courses .course .course-copy>p{display:none}
+ .courses .course small{display:block;line-height:1.7}
+ .courses .course h3{margin:10px 0 0}
+ .courses .course .course-details{display:block;opacity:1;visibility:visible}
+ .courses .course .course-details-inner{overflow:visible}
+ .courses .course .course-details ul{list-style:none;margin:0;padding:18px 0 0;display:grid;gap:5px}
+ .courses .course .course-details li{position:relative;padding-left:14px;font-size:1rem;line-height:1.85;opacity:1;transform:none}
+ .courses .course .course-details li::before{content:"";position:absolute;left:0;top:.86em;width:5px;height:1px;background:currentColor}
+}

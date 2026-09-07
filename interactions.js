@@ -18,7 +18,6 @@ const previous = document.querySelector('.carousel-prev');
 const next = document.querySelector('.carousel-next');
 const status = document.querySelector('.carousel-status');
 const buttonOnly = window.matchMedia('(max-width: 949px), (pointer: coarse)');
-const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
 let current = 2, requested = 2, position = 0, target = 0;
 let centers = [], limit = 0, frame = 0, lastTime = 0;
 let dragging = null, wheelTimer, resizeTimer;
@@ -56,7 +55,7 @@ function tick(now) {
 }
 function moveTo(value, instant = false) {
   target = clamp(value);
-  if (instant || reducedMotion.matches) {
+  if (instant) {
     cancelAnimationFrame(frame); frame = 0;
     position = target; track.scrollLeft = position; paintSelection(); announce();
   } else if (!frame) { lastTime = performance.now(); frame = requestAnimationFrame(tick); }
@@ -145,7 +144,6 @@ window.addEventListener('resize', () => {
   resizeTimer = setTimeout(syncCarouselInput, 120);
 });
 buttonOnly.addEventListener('change', syncCarouselInput);
-reducedMotion.addEventListener('change', () => { if (reducedMotion.matches) moveTo(target, true); });
 syncCarouselInput();
 
 // Explicit ease-in/out for the full journey back to the top.
@@ -160,7 +158,6 @@ backToTop.addEventListener('click', event => {
   event.preventDefault(); stopTop();
   const start = window.scrollY;
   if (start < 1) return;
-  if (reducedMotion.matches) { window.scrollTo({top:0, behavior:'instant'}); return; }
   const duration = Math.min(1500, Math.max(750, start * .28));
   const started = performance.now();
   savedScrollBehavior = document.documentElement.style.scrollBehavior;
@@ -181,4 +178,3 @@ window.addEventListener('pointerdown', stopTop, {passive:true});
 window.addEventListener('keydown', event => {
   if (['ArrowUp','ArrowDown','PageUp','PageDown','Home','End',' ','Escape'].includes(event.key)) stopTop();
 });
-reducedMotion.addEventListener('change', stopTop);

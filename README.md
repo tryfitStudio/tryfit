@@ -1,50 +1,38 @@
-# TRYFIT 網站原始碼
+# TRYFIT 網頁原始檔案
 
-這份交付包對應 2026-09-05 已發布的最新版網站，包含完整可編輯的 HTML、CSS、JavaScript 和圖片素材。
+匯出日期：2026-09-07
+對應網站版本：30
+來源版本：e6726ef3546d9fee52418cae4a57ac35c32837fc
 
 ## 使用方式
 
-1. 先完整解壓縮 ZIP。
-2. 以瀏覽器開啟 index.html，即可查看網站。不需要 npm install 或編譯。
-3. 也可以使用 VS Code 的 Live Server；如已安裝 Python，可在解壓後的資料夾執行：
+這是純 HTML、CSS、JavaScript 靜態網站，不需要 npm 安裝或編譯。
+解壓縮後可直接開啟 index.html。若要以本機伺服器預覽，在此資料夾執行：
 
-   python -m http.server 8000
+    python -m http.server 8000
 
-   再開啟 http://localhost:8000。
+然後在瀏覽器開啟 http://localhost:8000 。
+部署時上傳 index.html、全部 CSS / JS 及 assets 資料夾，並保持相對路徑。
+originals 是原圖與歷史照片備份，不必部署。
 
-## 檔案說明
+## 主要檔案
 
-- index.html：網站內容、區塊、照片路徑、連結，以及原始基礎樣式。
-- responsive.css：響應式版型、圖片效果、輪播與固定導覽按鈕樣式；載入順序在基礎樣式之後。
-- interactions.js：手機選單、輪播動畫與輸入控制、回到頂端動畫。
-- assets/coaches/：教練照片。Kai 的新照片是 kai-studio.png。
-- assets/testimonials/：學員與訓練圖片。
-- assets/logo/：品牌標誌。
-- assets/hero.jpg：首頁背景。
+- index.html：頁面內容、照片引用、外部連結與原始基礎樣式。
+- responsive.css：RWD、共用互動、教練卡片、手機 hero、footer。
+- interactions.js：教練輪播、漢堡選單與回到頂端。
+- mobile-decks.css / mobile-decks.js：手機版 PROGRAMS 與 MEMBER STORIES 輪播。
+- programs-desktop.css / programs-desktop.js：電腦版 PROGRAMS 裁圖與文字展開。
+- story-depth.js：MEMBER STORIES 文字立體傾斜互動。
+- waves.js：電腦版海浪 WebGL shader；波紋透明度 0.02～0.05。
+- assets/：網站使用圖片及既有素材。
+- originals/coaches/：花花教練目前原圖與 previous 歷史備份。
 
-## 已完成互動
+## 最新內容
 
-- 輪播開場定位在第三位 Jill。
-- 當前教練清晰，其他教練模糊；滑鼠移入照片 Zoom In。
-- 桌機輪播支援拖曳、滾輪與左右按鈕，使用逐漸減速的動畫。
-- 寬度小於 950px 或主要指標為觸控時，輪播只用按鈕切換；上下滑動留給網頁。
-- 寬度小於 1000px 顯示固定漢堡選單與回到頂端圖示。
-- 回到頂端有加速、減速動畫，可用手動捲動中止。
-- 尊重系統「減少動態效果」設定，此時會停用漸進動畫。
+手機課程卡片完整顯示四組共 22 項課程介紹。
+花花教練使用黑色運動服照片，附 480 × 600、800 × 1000 WebP 與 JPG 備援。
+Footer 含 Google Maps SVG、hover 效果、另開分頁與完整地址。
+地圖連結：https://maps.app.goo.gl/RLN4tLVMBvfuyPiJ8
+地址：433臺中市沙鹿區犁分里中山路655-2號1樓
 
-## 部署與修改
-
-這是純靜態網站，沒有後端、資料庫或環境變數。可將 index.html、兩個程式檔及 assets/ 一起放到靜態網站主機。請保留相對路徑和資料夾結構。
-
-圖片與實際網站程式保持交付時內容，包含原先素材庫中尚未使用的照片。本包不含 Sites 私人存取機制、帳戶設定、Git 歷史或憑證；自行部署時，存取權限由新主機決定。
-
-此版通過 JavaScript 語法及模擬動畫邏輯測試，尚未完成瀏覽器逐尺寸／手機實機驗證。
-
-## 最新更新
-
-- 使用重新上傳的花花照片，微調各教練的視覺置中裁切。
-- PROGRAMS 四張課程照片依名稱配對，照片與文字分離。
-- 電腦版課程照片預設模糊；hover 變清晰、向右上移動，陰影缩小變淡。
-- 外部網站連結以新分頁開啟。
-- 頁尾新增 Instagram 圓框圖示，連至 https://www.instagram.com/tryfit.tw.2025/。
-- 新課程圖片位於 assets/courses/。
+此檔案包保留目前網站程式與素材，未包含 Git 歷史、帳號憑證或託管識別設定。

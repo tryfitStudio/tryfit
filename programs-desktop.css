@@ -1,0 +1,33 @@
+/* Programs' desktop reveal is independent of the mobile carousel. */
+.course-details{display:none}
+@media(min-width:950px){
+ .courses .course{height:36rem;min-height:36rem;overflow:hidden;padding:0;display:flex;flex-direction:column;justify-content:flex-start;transform:none;box-shadow:none}
+ .courses .course .course-media{flex:1 1 auto;min-height:8rem;aspect-ratio:auto;overflow:hidden;transform:none;box-shadow:none}
+ .courses .course .course-media img{height:100%;object-fit:cover;object-position:50% 50%}
+ .courses .course .course-copy{flex:0 0 auto;padding:22px}
+ .courses .course .course-copy>p{display:none}
+ .courses .course small{display:block;line-height:1.7}
+ .courses .course h3{margin:10px 0 0}
+ .courses .course .course-details{display:grid;grid-template-rows:0fr;opacity:0;visibility:hidden;transition:grid-template-rows 650ms cubic-bezier(.4,0,.2,1) 120ms,opacity 220ms ease,visibility 0s linear 770ms}
+ .course-details-inner{min-height:0;overflow:hidden}
+ .courses .course-details ul{list-style:none;margin:0;padding:18px 0 0;display:grid;gap:5px}
+ .courses .course-details li{position:relative;padding-left:14px;font-size:1rem;line-height:1.85;opacity:0;transform:translateX(-24px);transition:opacity 220ms ease,transform 300ms ease}
+ .course-details li::before{content:"";position:absolute;left:0;top:.86em;width:5px;height:1px;background:currentColor}
+ .courses .course:focus-visible{outline:2px solid var(--clay);outline-offset:5px}
+ .courses .course:is(:hover,:focus-within) .course-media{transform:none;box-shadow:none}
+ .courses .course:is(:hover,:focus-within) .course-details{grid-template-rows:1fr;opacity:1;visibility:visible;transition-delay:250ms,400ms,0s}
+ .courses .course:is(:hover,:focus-within) .course-details li{opacity:1;transform:translateX(0);transition-duration:450ms,550ms;transition-delay:calc(430ms + var(--item) * 65ms)}
+ /* Wide touch screens reveal the details without requiring hover. */
+ @media(hover:none){
+  .courses .course{height:auto;min-height:0}
+  .courses .course .course-media{flex:none;aspect-ratio:4/3}
+  .courses .course .course-details{grid-template-rows:1fr;opacity:1;visibility:visible}
+  .courses .course .course-details li{opacity:1;transform:none}
+ }
+}
+
+/* Photo effects are off; the card's crop and text reveal remain active. */
+.courses .course .course-media,
+.courses .course:hover .course-media{transform:none;box-shadow:none;transition:none}
+.courses .course .course-media img,
+.courses .course:hover .course-media img{filter:none;transform:none;transition:none}

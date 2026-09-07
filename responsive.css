@@ -9,7 +9,7 @@
 @media(min-width:1200px){:root{--section:104px}.stories .grid{grid-template-columns:repeat(4,minmax(0,1fr));gap:20px}h1{font-size:4.8rem}h2{font-size:2.9rem}.coach-grid{gap:36px 24px}.coach{flex-basis:calc((100% - 48px)/3)}.coach-info{padding:28px}.story div.story-copy{padding:22px}.hero{min-height:800px}.intro h2{font-size:2.65rem}}
 @media(min-width:1450px){:root{--gutter:64px;--section:112px}.wrap{max-width:1320px}h1{font-size:5rem}h2{font-size:3.2rem}.hero{min-height:840px}.grid{gap:24px}.course{padding:28px}.coach-grid{gap:40px 28px}.coach{flex-basis:calc((100% - 56px)/3)}.intro h2{font-size:2.9rem}}
 @media(hover:hover) and (pointer:fine){nav a:hover{background:#ffffff20}.button:hover{transform:translateY(-3px);background:white;color:var(--ink);box-shadow:0 8px 22px #0002}.button.primary:hover{background:#e5d6c3}.course:hover{transform:translateY(-6px);box-shadow:0 16px 28px #49372b26}.social a:hover{background:#94694f;transform:translateY(-3px)}}
-@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*:before,*:after{transition:none!important;animation:none!important}.coach:hover,.story:hover,.course:hover,.button:hover,.social a:hover{transform:none}.story:hover img,.coach:hover img{transform:none!important}}
+
 /* Horizontal, manually controlled coach carousel. */
 .coach-carousel{--coach-width:min(360px,calc(100vw - var(--gutter)*2 - 24px));min-width:0}
 .coach-carousel .coach-grid{position:relative;flex-wrap:nowrap;justify-content:flex-start;align-items:stretch;gap:24px;overflow-x:auto;overscroll-behavior-x:contain;scroll-snap-type:x mandatory;padding:12px max(0px,calc((100% - var(--coach-width))/2)) 28px;scrollbar-width:thin;scrollbar-color:var(--clay) transparent;cursor:grab;touch-action:pan-x pan-y pinch-zoom}
@@ -25,17 +25,15 @@
 .carousel-status{margin:0;min-width:130px;text-align:center;font-size:1rem}
 .coach:focus-visible,.coach-grid:focus-visible{outline:3px solid #94694f}
 @media(hover:hover) and (pointer:fine){
- .story .story-media img{filter:blur(3px)}
- .story:hover .story-media img,.story:focus-within .story-media img{filter:blur(0);transform:none}
  .coach-carousel .coach:hover .coach-photo img{transform:scale(1.08)}
  .carousel-controls button:not(:disabled):hover{background:var(--clay);color:white}
 }
-@media(prefers-reduced-motion:reduce){.coach-carousel .coach{transition:none}.coach-carousel .coach-photo img,.story .story-media img{transition:none}}
+
 
 /* Blur follows the selected slide; hover only controls zoom. */
 .coach-carousel .coach .coach-photo img{filter:blur(3px);transition:filter .3s ease-in-out,transform .5s ease-in-out}
 .coach-carousel .coach.is-current .coach-photo img{filter:blur(0)}
-@media(prefers-reduced-motion:reduce){.coach-carousel .coach .coach-photo img{transition:none}}
+
 
 /* Touch and narrow layouts: vertical page gestures, button-only carousel. */
 @media(max-width:949px),(pointer:coarse){
@@ -65,7 +63,8 @@
 .coach-carousel .coach{scroll-snap-align:none}
 
 /* Per-portrait framing for the revised coach assets. */
-.coach-carousel .coach-photo img[src$="huahua.jpg"]{object-position:48% 15%}
+.coach-carousel .coach-photo img[src*="huahua.jpg"]{object-position:50% 0%}
+.coach-photo picture{display:block;width:100%;height:100%}
 .coach-carousel .coach-photo img[src$="toni_original.jpg"]{object-position:50% 15%}
 .coach-carousel .coach-photo img[src$="jill.png"]{object-position:58% 15%}
 .coach-carousel .coach-photo img[src$="kai-studio.png"]{object-position:50% 15%}
@@ -87,4 +86,93 @@
  .courses .course:hover .course-media{transform:translate(4px,-4px);box-shadow:0 3px 9px rgba(38,30,24,.08)}
  .courses .course:hover .course-media img{filter:blur(0)}
 }
-@media(prefers-reduced-motion:reduce){.courses .course:hover .course-media{transform:none}}
+
+/* Shared control motion: a soft start with a gentle settle. */
+:root{--control-ease:cubic-bezier(.4,0,.2,1);--control-duration:450ms}
+.button,.menu-toggle,.carousel-controls button,.back-to-top,.social a,nav a{
+ transition:background-color var(--control-duration) var(--control-ease),color var(--control-duration) var(--control-ease),border-color var(--control-duration) var(--control-ease),box-shadow var(--control-duration) var(--control-ease),transform var(--control-duration) var(--control-ease),opacity var(--control-duration) var(--control-ease)
+}
+.menu-icon i{transition:transform 300ms var(--control-ease),opacity 200ms ease-in-out}
+@media(hover:hover) and (pointer:fine){
+ .menu-toggle:hover{background-color:#494741;box-shadow:0 7px 22px #0003;transform:translateY(-2px)}
+ .carousel-controls button:not(:disabled):hover{transform:translateY(-2px);box-shadow:0 5px 12px #49372b20}
+ .back-to-top:hover{background-color:#79543e;transform:translateY(-3px);box-shadow:0 7px 22px #0003}
+}
+.button:active,.menu-toggle:active,.carousel-controls button:not(:disabled):active,.back-to-top:active,.social a:active{transform:translateY(0) scale(.96)}
+.carousel-controls button:disabled{box-shadow:none;transform:none}
+
+
+/* Footer icons keep the same viewport and box across responsive layouts. */
+.social a{flex:0 0 44px;line-height:1}
+.social a svg{display:block;width:22px;height:22px;flex-shrink:0}
+
+/* Apply the same visible ease-in/out to all photo blur states, both directions. */
+
+ :root{--photo-duration:600ms;--photo-ease:cubic-bezier(.4,0,.2,1)}
+ .courses .course-media img,.story .story-media img,.coach-carousel .coach .coach-photo img{
+  transition:filter var(--photo-duration) var(--photo-ease),transform var(--photo-duration) var(--photo-ease)
+ }
+ .courses .course-media{transition:transform var(--photo-duration) var(--photo-ease),box-shadow var(--photo-duration) var(--photo-ease)}
+ .menu-icon i{transition:transform 450ms var(--control-ease),opacity 300ms ease-in-out}
+
+/* Hover waits a quarter second; leaving and pressing remain responsive. */
+@media(hover:hover) and (pointer:fine){
+ .button:hover,.menu-toggle:hover,.carousel-controls button:not(:disabled):hover,.back-to-top:hover,.social a:hover,nav a:hover{transition-delay:250ms}
+ .courses .course:hover .course-media,.courses .course:hover .course-media img{transition-delay:250ms}
+ /* Selection blur stays immediate; only the hover zoom waits. */
+ .coach-carousel .coach:hover .coach-photo img{transition-delay:0ms,250ms}
+ .button:active,.menu-toggle:active,.carousel-controls button:not(:disabled):active,.back-to-top:active,.social a:active,nav a:active{transition-delay:0ms}
+ .carousel-controls button:disabled{transition-delay:0ms}
+}
+
+/* Phone hero: independent mirrored portrait, no text over the face. */
+.hero-mobile-portrait{display:none}
+@media(max-width:649.98px){
+ .hero{min-height:0;padding:104px 0 48px;background:#292927;color:white}
+ .hero:before{display:none}
+ .hero .hero-copy{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));column-gap:12px;row-gap:24px;max-width:none}
+ .hero-copy>.eyebrow{grid-column:1/-1;grid-row:1;max-width:none}
+ .hero .hero-copy h1{position:relative;z-index:2;grid-column:1/-1;grid-row:2;align-self:center;width:46%;text-shadow:0 2px 16px #0006;font-size:1.75rem;line-height:1.5;margin:0;max-width:none;letter-spacing:0}
+ .hero .hero-copy h1 br{display:none}
+ .hero .hero-mobile-portrait{--portrait-height:clamp(300px,78vw,440px);position:relative;display:block;grid-column:1/-1;grid-row:2;min-width:0;max-width:none;margin-inline:calc(-1 * var(--gutter));height:var(--portrait-height);overflow:hidden;background:#292927;pointer-events:none}
+ /* Mirror the photo, then place its face around 75% of the viewport. */
+ .hero-mobile-portrait img{position:absolute;top:0;left:calc(75% - var(--portrait-height) * .587);display:block;width:calc(var(--portrait-height) * 1.777);height:100%;max-width:none;object-fit:contain;transform:scaleX(-1);mask-image:linear-gradient(to left,transparent,black 20%)}
+ .hero-mobile-portrait:after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,#292927 12%,rgba(41,41,39,.72) 35%,transparent 62%)}
+ .hero .hero-copy p{grid-column:1/-1;grid-row:3;max-width:none;margin:0;line-height:1.9}
+ .hero .hero-copy>.button{grid-row:4;margin:0;padding:12px 14px;text-align:center;align-self:start;justify-self:stretch;font-size:1rem}
+ .hero .hero-copy>.button.primary{grid-column:1}
+ .hero .hero-copy>.button:not(.primary){grid-column:2}
+}
+
+/* Keep students’ faces inside the shared 4:3 story frame. */
+.story .story-media img[src$="exam-prep.jpg"]{object-position:50% 18%}
+.story .story-media img[src$="recovery.jpg"]{object-position:50% 16%}
+
+/* Wave surface sits above section colors and below foreground content. */
+.background-waves{display:none;pointer-events:none!important}
+@media(min-width:1000px) and (hover:hover) and (pointer:fine){
+ .background-waves{display:block;position:fixed;inset:0;width:100%;height:100%;z-index:1;pointer-events:none}
+ main>section>.wrap,footer>.wrap{position:relative;z-index:2}
+}
+
+/* Member stories: clear photography and a separate raised text plane. */
+.stories .story .story-media img{filter:none;transform:none;transition:none}
+@media(hover:hover) and (pointer:fine){
+ .stories .story{position:relative;perspective:900px;transform-style:preserve-3d;overflow:visible;background:transparent;isolation:auto;--story-rx:0deg;--story-ry:0deg;--story-lift:0px}
+ .stories .story::before{content:"";position:absolute;inset:0;background:#f7f2eb;box-shadow:0 3px 10px #49372b0a;transform:rotateX(var(--story-rx)) rotateY(var(--story-ry)) translateZ(-12px);transition:transform 450ms ease,box-shadow 450ms ease;pointer-events:none}
+ .stories .story .story-media{position:relative;transform:rotateX(var(--story-rx)) rotateY(var(--story-ry));transition:transform 450ms ease}
+ .stories .story .story-copy{position:relative;transform-style:preserve-3d;background:#f7f2eb;transform:rotateX(var(--story-rx)) rotateY(var(--story-ry)) translateZ(var(--story-lift));transition:transform 450ms ease,box-shadow 450ms ease}
+ .stories .story .story-copy>*{position:relative;transition:transform 450ms ease,text-shadow 450ms ease}
+ .stories .story.is-tilting{z-index:3;--story-lift:36px}
+ .stories .story.is-tilting::before{box-shadow:0 22px 32px #49372b20}
+ .stories .story.is-tilting .story-copy{box-shadow:0 12px 22px #49372b12}
+ .stories .story .story-copy small{display:block}
+ .stories .story.is-tilting .story-copy small{transform:translateZ(10px)}
+ .stories .story.is-tilting .story-copy h3{transform:translateZ(24px);text-shadow:0 5px 12px #49372b18}
+ .stories .story.is-tilting .story-copy p{transform:translateZ(14px)}
+}
+
+/* Address is a separate final footer row. */
+footer .footer-address{margin-top:24px;padding-top:18px;border-top:1px solid #ffffff26}
+.footer-address address{font-style:normal;line-height:1.9;overflow-wrap:anywhere}
+footer .social{flex-wrap:wrap}
